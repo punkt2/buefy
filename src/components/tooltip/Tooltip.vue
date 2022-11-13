@@ -116,6 +116,15 @@ export default {
             if (this.appendToBody) {
                 this.updateAppendToBody()
             }
+            if (typeof window !== 'undefined') {
+                if (this.isActive) {
+                    document.addEventListener('click', this.clickedOutside)
+                    document.addEventListener('keyup', this.keyPress)
+                } else {
+                    document.removeEventListener('click', this.clickedOutside)
+                    document.removeEventListener('keyup', this.keyPress)
+                }
+            }
         }
     },
     methods: {
@@ -278,12 +287,6 @@ export default {
         if (this.appendToBody && typeof window !== 'undefined') {
             this.$data._bodyEl = createAbsoluteElement(this.$refs.content)
             this.updateAppendToBody()
-        }
-    },
-    created() {
-        if (typeof window !== 'undefined') {
-            document.addEventListener('click', this.clickedOutside)
-            document.addEventListener('keyup', this.keyPress)
         }
     },
     beforeDestroy() {
